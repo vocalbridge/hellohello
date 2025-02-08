@@ -70,14 +70,6 @@
             background: pink;
             border-radius: 10px;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
     </style>
 </head>
 <body>
@@ -89,14 +81,20 @@
             <button class="no" onmouseover="moveButton(this)">No 😢</button>
         </div>
         <p id="hiddenMessage">Yay! I love you forever, my munchkin! 💞🥰</p>
-        <p style="margin-top: 30px; font-size: 18px; color: #99004d; font-weight: bold;">ਜਿੰਦਗੀ ਦੀ ਹਰ ਸਾਹ ਨਾਲ, ਤੂੰ ਮੇਰਾ ਪਿਆਰ ਰਹੇ,<br> ਹਰ ਪਲ, ਹਰ ਸਮੇਂ, ਸਾਥ ਤੇਰਾ ਯਾਰ ਰਹੇ। ❤️</p>
+        <div id="loveMessage" style="display: none; margin-top: 20px; font-size: 18px; color: #99004d; font-weight: bold;">
+            "From the moment we met, my heart knew you were the one. Through laughter and love, you've been my forever. Here's to a lifetime of happiness together, my Munchkin! 💖"
+        </div>
         <canvas id="heartGame" width="300" height="400"></canvas>
     </div>
     <script>
         function showLove() {
             document.getElementById('hiddenMessage').style.display = 'block';
+            document.getElementById('loveMessage').style.display = 'block';
             confettiEffect();
             new Audio('https://www.fesliyanstudios.com/play-mp3/4386').play();
+            setTimeout(() => {
+                window.open("https://your-special-surprise.com", "_blank");
+            }, 2000);
         }
         function moveButton(button) {
             let x = Math.random() * (window.innerWidth - 100);
@@ -124,42 +122,7 @@
             document.body.appendChild(confetti);
             setTimeout(() => confetti.remove(), 2000);
         }
-        // Simple heart-catching game
-        const canvas = document.getElementById('heartGame');
-        const ctx = canvas.getContext('2d');
-        let heart = { x: Math.random() * 280, y: 0, speed: 2 };
-        let score = 0;
-        function drawHeart() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'red';
-            ctx.font = '20px Arial';
-            ctx.fillText('❤️', heart.x, heart.y);
-            ctx.fillText('Score: ' + score, 10, 20);
-        }
-        function updateHeart() {
-            heart.y += heart.speed;
-            if (heart.y > 400) {
-                heart.y = 0;
-                heart.x = Math.random() * 280;
-            }
-        }
-        function checkClick(event) {
-            let rect = canvas.getBoundingClientRect();
-            let clickX = event.clientX - rect.left;
-            let clickY = event.clientY - rect.top;
-            if (clickX > heart.x - 10 && clickX < heart.x + 20 && clickY > heart.y - 10 && clickY < heart.y + 20) {
-                score++;
-                heart.y = 0;
-                heart.x = Math.random() * 280;
-            }
-        }
-        canvas.addEventListener('click', checkClick);
-        function gameLoop() {
-            updateHeart();
-            drawHeart();
-            requestAnimationFrame(gameLoop);
-        }
-        gameLoop();
     </script>
 </body>
 </html>
+
