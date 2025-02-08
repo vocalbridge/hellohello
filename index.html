@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Day Surprise! 💖</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            padding: 50px;
+            overflow: hidden;
+        }
+        .container {
+            background: #ffb6c1;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px #ff69b4;
+            display: inline-block;
+            animation: fadeIn 2s;
+        }
+        h1 {
+            color: #ff1493;
+            animation: bounce 2s infinite;
+        }
+        p {
+            color: #d147a3;
+        }
+        .buttons {
+            margin-top: 20px;
+            position: relative;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .yes {
+            background-color: #ff69b4;
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .no {
+            background-color: #ffcccc;
+            color: black;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .yes:hover, .no:hover {
+            transform: scale(1.1);
+        }
+        #hiddenMessage {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #ff1493;
+            animation: fadeIn 2s;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: pink;
+            border-radius: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Baldeep, my Munchkin! 💕</h1>
+        <p>Will you be mine again on this Propose Day? 🌹</p>
+        <div class="buttons">
+            <button class="yes" onclick="showLove()" onmouseover="moveYes(this)">Yes! 💖</button>
+            <button class="no" onmouseover="moveButton(this)">No 😢</button>
+        </div>
+        <p id="hiddenMessage">Yay! I love you forever, my munchkin! 💞🥰</p>
+        <p style="margin-top: 30px; font-size: 18px; color: #99004d; font-weight: bold;">ਜਿੰਦਗੀ ਦੀ ਹਰ ਸਾਹ ਨਾਲ, ਤੂੰ ਮੇਰਾ ਪਿਆਰ ਰਹੇ,<br> ਹਰ ਪਲ, ਹਰ ਸਮੇਂ, ਸਾਥ ਤੇਰਾ ਯਾਰ ਰਹੇ। ❤️</p>
+        <canvas id="heartGame" width="300" height="400"></canvas>
+    </div>
+    <script>
+        function showLove() {
+            document.getElementById('hiddenMessage').style.display = 'block';
+            confettiEffect();
+            new Audio('https://www.fesliyanstudios.com/play-mp3/4386').play();
+        }
+        function moveButton(button) {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            button.style.position = 'absolute';
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+        function moveYes(button) {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            button.style.position = 'absolute';
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+        function confettiEffect() {
+            const confetti = document.createElement('div');
+            confetti.innerHTML = '🎉🎊💖';
+            confetti.style.position = 'fixed';
+            confetti.style.top = '50%';
+            confetti.style.left = '50%';
+            confetti.style.transform = 'translate(-50%, -50%)';
+            confetti.style.fontSize = '50px';
+            confetti.style.opacity = '1';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 2000);
+        }
+        // Simple heart-catching game
+        const canvas = document.getElementById('heartGame');
+        const ctx = canvas.getContext('2d');
+        let heart = { x: Math.random() * 280, y: 0, speed: 2 };
+        let score = 0;
+        function drawHeart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'red';
+            ctx.font = '20px Arial';
+            ctx.fillText('❤️', heart.x, heart.y);
+            ctx.fillText('Score: ' + score, 10, 20);
+        }
+        function updateHeart() {
+            heart.y += heart.speed;
+            if (heart.y > 400) {
+                heart.y = 0;
+                heart.x = Math.random() * 280;
+            }
+        }
+        function checkClick(event) {
+            let rect = canvas.getBoundingClientRect();
+            let clickX = event.clientX - rect.left;
+            let clickY = event.clientY - rect.top;
+            if (clickX > heart.x - 10 && clickX < heart.x + 20 && clickY > heart.y - 10 && clickY < heart.y + 20) {
+                score++;
+                heart.y = 0;
+                heart.x = Math.random() * 280;
+            }
+        }
+        canvas.addEventListener('click', checkClick);
+        function gameLoop() {
+            updateHeart();
+            drawHeart();
+            requestAnimationFrame(gameLoop);
+        }
+        gameLoop();
+    </script>
+</body>
+</html>
